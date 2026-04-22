@@ -4,6 +4,12 @@ All notable changes to `django-authkit` will be documented in this file.
 
 This project follows semantic versioning before stable releases where practical.
 
+## 0.1.1 - Documentation Refresh
+
+### Changed
+
+- Updated the README content shown on package indexes.
+
 ## 0.1.0 - Initial Development Release
 
 ### Added
