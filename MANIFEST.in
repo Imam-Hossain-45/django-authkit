@@ -1,0 +1,13 @@
+include LICENSE
+include README.md
+include pyproject.toml
+recursive-include src/authkit *.py
+recursive-exclude src/authkit __pycache__
+recursive-exclude src/authkit *.py[cod]
+prune docs
+prune example_django_app
+prune tests
+exclude .dockerignore
+exclude .env.example
+exclude Dockerfile
+exclude docker-compose.yml

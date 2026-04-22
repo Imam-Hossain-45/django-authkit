@@ -1,0 +1,13 @@
+services:
+  example:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env.example
+    ports:
+      - "8010:8000"
+    volumes:
+      - .:/app
+    working_dir: /app/example_django_app
+    command: python manage.py runserver 0.0.0.0:8000
