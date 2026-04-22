@@ -409,15 +409,3 @@ Provider metadata is available at:
 
 Reusable package foundation with auth, user, role, permission, password reset,
 verification, social auth, audit log, and OpenAPI endpoints.
-
-## Release Checklist
-
-1. Update `CHANGELOG.md`.
-2. Confirm `src/authkit/__init__.py` and `pyproject.toml` have the same version.
-3. Run `make lint`.
-4. Run `make test`.
-5. Run `make build`.
-6. Inspect package contents and confirm `example_django_app`, `tests`, and
-   `docs` are not included in the distribution.
-7. Tag the release in git.
-8. Publish artifacts with the repository's chosen package index workflow.
