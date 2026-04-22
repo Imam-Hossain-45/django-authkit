@@ -3,6 +3,10 @@
 `django-authkit` is a reusable Django package that provides an auth API layer
 built on Django's own authentication system.
 
+The PyPI distribution name is `django-authkit-api` because the shorter
+`django-authkit` name is too similar to an existing PyPI project. The Python
+import path and Django app label remain `authkit`.
+
 The package uses:
 
 - A package-owned custom user model configured as `AUTH_USER_MODEL = "authkit.User"`.
@@ -27,7 +31,7 @@ Prerequisites:
 Clone the repo, then run the full example bootstrap and server flow:
 
 ```bash
-git clone https://github.com/django-authkit/django-authkit.git
+git clone https://github.com/Imam-Hossain-45/django-authkit.git
 cd django-authkit
 make example-dev
 ```
@@ -38,7 +42,7 @@ That command will:
 - build the example app image
 - run migrations
 - create a reusable local superuser if missing
-- start the example Django app on port `8000`
+- start the example Django app on port `8010`
 
 Open:
 
@@ -79,7 +83,7 @@ make example-down
 Install from PyPI after a release is published:
 
 ```bash
-python -m pip install django-authkit
+python -m pip install django-authkit-api
 ```
 
 Install from a local checkout:
@@ -97,26 +101,26 @@ python -m pip install -e /path/to/django-authkit
 Install from a git repository:
 
 ```bash
-python -m pip install "django-authkit @ git+https://github.com/django-authkit/django-authkit.git"
+python -m pip install "django-authkit-api @ git+https://github.com/Imam-Hossain-45/django-authkit.git"
 ```
 
 For a private or personal repository, replace the URL with your actual git
 remote:
 
 ```bash
-python -m pip install "django-authkit @ git+https://github.com/<owner>/django-authkit.git"
+python -m pip install "django-authkit-api @ git+https://github.com/<owner>/django-authkit.git"
 ```
 
 For repeatable application installs, pin a tag or commit:
 
 ```bash
-python -m pip install "django-authkit @ git+https://github.com/<owner>/django-authkit.git@v0.1.0"
+python -m pip install "django-authkit-api @ git+https://github.com/<owner>/django-authkit.git@v0.1.0"
 ```
 
 Install optional dependency groups when needed:
 
 ```bash
-python -m pip install "django-authkit[social] @ git+https://github.com/django-authkit/django-authkit.git"
+python -m pip install "django-authkit-api[social] @ git+https://github.com/Imam-Hossain-45/django-authkit.git"
 python -m pip install -e "/path/to/django-authkit[dev,docs]"
 ```
 
@@ -163,7 +167,7 @@ For a fresh Django project, install the package, configure the custom user model
 before the first migration, include the package URLs, then run migrations:
 
 ```bash
-python -m pip install "django-authkit @ git+https://github.com/django-authkit/django-authkit.git"
+python -m pip install "django-authkit-api @ git+https://github.com/Imam-Hossain-45/django-authkit.git"
 ```
 
 ```python
@@ -211,13 +215,13 @@ python manage.py migrate
 Use a direct git install for open-source or private git distribution:
 
 ```bash
-python -m pip install "django-authkit @ git+https://github.com/django-authkit/django-authkit.git"
+python -m pip install "django-authkit-api @ git+https://github.com/Imam-Hossain-45/django-authkit.git"
 ```
 
 For a specific branch, tag, or commit:
 
 ```bash
-python -m pip install "django-authkit @ git+https://github.com/django-authkit/django-authkit.git@main"
+python -m pip install "django-authkit-api @ git+https://github.com/Imam-Hossain-45/django-authkit.git@main"
 ```
 
 ### 2. Add Required Apps
@@ -366,7 +370,7 @@ schema decision.
 Install the social optional dependencies when using Google login:
 
 ```bash
-python -m pip install "django-authkit[social] @ git+https://github.com/django-authkit/django-authkit.git"
+python -m pip install "django-authkit-api[social] @ git+https://github.com/Imam-Hossain-45/django-authkit.git"
 ```
 
 Create an OAuth 2.0 Client ID in Google Cloud Console for the consuming project,
@@ -413,20 +417,20 @@ There are two supported installation paths:
 1. Git install:
 
    ```bash
-   python -m pip install "django-authkit @ git+https://github.com/<owner>/django-authkit.git@v0.1.0"
+   python -m pip install "django-authkit-api @ git+https://github.com/<owner>/django-authkit.git@v0.1.0"
    ```
 
    This only requires pushing the repository and tagging a release. Consumers
-   cannot install it with only `pip install django-authkit` from git alone.
+   cannot install it with only `pip install django-authkit-api` from git alone.
 
 2. Package index install:
 
    ```bash
-   python -m pip install django-authkit
+   python -m pip install django-authkit-api
    ```
 
    This requires publishing the built package to PyPI or a private Python
-   package index under the distribution name `django-authkit`.
+   package index under the distribution name `django-authkit-api`.
 
 Build and check the package:
 
@@ -453,7 +457,7 @@ python -m twine upload --repository testpypi dist/*
 After publishing to PyPI, consumer projects can use:
 
 ```bash
-python -m pip install django-authkit
+python -m pip install django-authkit-api
 ```
 
 This repository includes GitHub Actions workflows for open-source package
@@ -467,7 +471,7 @@ publishing:
 The publish workflow uses PyPI Trusted Publishing. Configure a PyPI trusted
 publisher for:
 
-- PyPI project name: `django-authkit`
+- PyPI project name: `django-authkit-api`
 - Owner: your GitHub user or organization
 - Repository name: `django-authkit`
 - Workflow name: `publish.yml`
@@ -483,13 +487,13 @@ git push origin v0.1.0
 Once the workflow succeeds, anyone can install the latest release with:
 
 ```bash
-python -m pip install django-authkit
+python -m pip install django-authkit-api
 ```
 
 Or pin a specific version:
 
 ```bash
-python -m pip install django-authkit==0.1.0
+python -m pip install django-authkit-api==0.1.0
 ```
 
 ## Release Checklist

@@ -25,7 +25,7 @@ class AuthKitInfoView(APIView):
         """Return package identity and version information."""
         return Response(
             {
-                "name": "django-authkit",
+                "name": "django-authkit-api",
                 "package": "authkit",
                 "version": __version__,
             }

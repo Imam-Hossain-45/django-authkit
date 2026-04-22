@@ -37,7 +37,7 @@ class GoogleProvider:
             from google.oauth2 import id_token
         except ImportError as exc:
             raise ProviderUnavailableError(
-                "Google social auth requires installing django-authkit[social]."
+                "Google social auth requires installing django-authkit-api[social]."
             ) from exc
 
         client_id = str(authkit_settings.SOCIAL_AUTH_GOOGLE_CLIENT_ID).strip()
