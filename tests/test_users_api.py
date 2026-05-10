@@ -113,6 +113,49 @@ def test_admin_user_list(api_client: APIClient, user, staff_user):
     assert {"staff@example.com", "user@example.com"} <= emails
 
 
+@override_settings(AUTHKIT={"ADMIN_API_REQUIRE_STAFF": False})
+def test_admin_user_list_can_allow_permission_only_access(
+    api_client: APIClient,
+    user,
+):
+    manager = get_user_model().objects.create_user(
+        email="manager@example.com",
+        password="password",
+        is_staff=False,
+    )
+    manager.user_permissions.add(Permission.objects.get(codename="view_user"))
+    api_client.force_authenticate(user=manager)
+
+    response = api_client.get(reverse("authkit-api:users:user-list"))
+
+    assert response.status_code == 200
+    emails = {item["email"] for item in response.data}
+    assert {"manager@example.com", "user@example.com"} <= emails
+
+
+@override_settings(
+    AUTHKIT={
+        "ADMIN_API_REQUIRE_STAFF": False,
+        "ADMIN_API_REQUIRE_SUPERUSER": True,
+    }
+)
+def test_admin_user_list_can_require_superuser_even_with_permissions(
+    api_client: APIClient,
+    user,
+):
+    manager = get_user_model().objects.create_user(
+        email="manager@example.com",
+        password="password",
+        is_staff=False,
+    )
+    manager.user_permissions.add(Permission.objects.get(codename="view_user"))
+    api_client.force_authenticate(user=manager)
+
+    response = api_client.get(reverse("authkit-api:users:user-list"))
+
+    assert response.status_code == 403
+
+
 def test_admin_create_user(api_client: APIClient, staff_user):
     api_client.force_authenticate(user=staff_user)
 

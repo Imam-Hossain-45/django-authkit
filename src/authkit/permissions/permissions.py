@@ -6,7 +6,7 @@ from authkit.api.permissions import AuthKitActionPermission
 
 
 class IsPermissionAdminWithModelPermission(AuthKitActionPermission):
-    """Require staff access plus relevant Django model permissions."""
+    """Require configured admin access plus relevant Django model permissions."""
 
     permission_map = {
         "list": "auth.view_permission",

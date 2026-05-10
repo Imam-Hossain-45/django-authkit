@@ -11,6 +11,8 @@ DEFAULTS: dict[str, Any] = {
     "OPENAPI_TITLE": "django-authkit API",
     "OPENAPI_DESCRIPTION": "Reusable authentication API layer for Django projects.",
     "OPENAPI_VERSION": "0.1.0",
+    "ADMIN_API_REQUIRE_STAFF": True,
+    "ADMIN_API_REQUIRE_SUPERUSER": False,
     "REQUIRE_VERIFIED_LOGIN": False,
     "PASSWORD_RESET_TIMEOUT": 60 * 60 * 24,
     "PASSWORD_RESET_CONFIRM_URL": "",

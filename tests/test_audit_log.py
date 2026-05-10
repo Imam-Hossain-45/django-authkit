@@ -124,6 +124,29 @@ def test_audit_log_api_is_read_only_and_admin_restricted(
     assert post_response.status_code == 405
 
 
+@override_settings(AUTHKIT={"ADMIN_API_REQUIRE_STAFF": False})
+def test_audit_log_api_can_allow_permission_only_access(
+    api_client: APIClient,
+    user,
+):
+    audit_user = get_user_model().objects.create_user(
+        email="audit-reader@example.com",
+        password="password",
+        is_staff=False,
+    )
+    audit_user.user_permissions.add(Permission.objects.get(codename="view_auditlog"))
+    AuditLog.objects.create(
+        event_type="test_event",
+        target_user=user,
+    )
+    api_client.force_authenticate(user=audit_user)
+
+    response = api_client.get(reverse("authkit-api:audit_log:audit-log-list"))
+
+    assert response.status_code == 200
+    assert response.data[0]["event_type"] == "test_event"
+
+
 def test_registration_login_failure_and_success_are_audited(api_client: APIClient):
     register_response = api_client.post(
         reverse("authkit-api:authentication:register"),

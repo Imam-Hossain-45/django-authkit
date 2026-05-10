@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
+from django.test import override_settings
 from django.urls import reverse
 from rest_framework.test import APIClient
 
@@ -62,6 +63,23 @@ def test_role_list_requires_staff_permission(api_client: APIClient, user):
 def test_role_list(api_client: APIClient, staff_user):
     Group.objects.create(name="Managers")
     api_client.force_authenticate(user=staff_user)
+
+    response = api_client.get(reverse("authkit-api:roles:role-list"))
+
+    assert response.status_code == 200
+    assert response.data[0]["name"] == "Managers"
+
+
+@override_settings(AUTHKIT={"ADMIN_API_REQUIRE_STAFF": False})
+def test_role_list_can_allow_permission_only_access(api_client: APIClient):
+    Group.objects.create(name="Managers")
+    manager = get_user_model().objects.create_user(
+        email="manager@example.com",
+        password="password",
+        is_staff=False,
+    )
+    manager.user_permissions.add(Permission.objects.get(codename="view_group"))
+    api_client.force_authenticate(user=manager)
 
     response = api_client.get(reverse("authkit-api:roles:role-list"))
 

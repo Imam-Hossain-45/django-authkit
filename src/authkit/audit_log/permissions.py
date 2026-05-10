@@ -6,7 +6,7 @@ from authkit.api.permissions import AuthKitActionPermission
 
 
 class CanViewAuditLogs(AuthKitActionPermission):
-    """Require staff users with authkit audit log view permission."""
+    """Require configured admin access with audit log view permission."""
 
     default_permission = "authkit.view_auditlog"
     permission_map = {

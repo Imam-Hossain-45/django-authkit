@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
+from django.test import override_settings
 from django.urls import reverse
 from rest_framework.test import APIClient
 
@@ -71,6 +72,22 @@ def test_permission_list(api_client: APIClient, staff_user):
     assert {"id", "name", "codename", "content_type_id", "app_label", "model"} <= set(
         response.data[0]
     )
+
+
+@override_settings(AUTHKIT={"ADMIN_API_REQUIRE_STAFF": False})
+def test_permission_list_can_allow_permission_only_access(api_client: APIClient):
+    manager = get_user_model().objects.create_user(
+        email="manager@example.com",
+        password="password",
+        is_staff=False,
+    )
+    manager.user_permissions.add(Permission.objects.get(codename="view_permission"))
+    api_client.force_authenticate(user=manager)
+
+    response = api_client.get(reverse("authkit-api:permissions:permission-list"))
+
+    assert response.status_code == 200
+    assert response.data
 
 
 def test_permission_retrieve(api_client: APIClient, staff_user, sample_permission):

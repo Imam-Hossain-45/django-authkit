@@ -43,15 +43,29 @@ class AuthKitSuperuserOnly(AuthKitAuthenticated):
 
 
 class AuthKitAdminManager(AuthKitAuthenticated):
-    """Require staff access for authkit administrative APIs."""
+    """Require administrative API access according to authkit settings."""
 
     def has_permission(self, request, view) -> bool:
         """Return whether the authenticated user can access admin APIs."""
-        return super().has_permission(request, view) and bool(request.user.is_staff)
+        if not super().has_permission(request, view):
+            return False
+        return self.user_matches_admin_policy(request.user)
+
+    def user_matches_admin_policy(self, user) -> bool:
+        """Return whether the given user satisfies the configured admin policy."""
+        if authkit_settings.ADMIN_API_REQUIRE_SUPERUSER and not bool(
+            getattr(user, "is_superuser", False)
+        ):
+            return False
+        if authkit_settings.ADMIN_API_REQUIRE_STAFF and not bool(
+            getattr(user, "is_staff", False)
+        ):
+            return False
+        return True
 
 
 class AuthKitActionPermission(AuthKitAdminManager):
-    """Require staff access plus Django permissions mapped by view action."""
+    """Require configured admin access plus Django permissions by view action."""
 
     default_permission: str | Iterable[str] | None = None
     permission_map: dict[str, str | Iterable[str]] = {}
@@ -81,7 +95,7 @@ class AuthKitActionPermission(AuthKitAdminManager):
 
 
 class AuthKitSelfOrAdmin(AuthKitAuthenticated):
-    """Allow users to access themselves, or staff with the configured permission."""
+    """Allow users to access themselves, or admins with the configured permission."""
 
     admin_permission: str = "authkit.view_user"
 
@@ -91,6 +105,8 @@ class AuthKitSelfOrAdmin(AuthKitAuthenticated):
             return False
         if obj == request.user or getattr(obj, "pk", None) == request.user.pk:
             return True
+        admin_policy = AuthKitAdminManager()
         return bool(
-            request.user.is_staff and request.user.has_perm(self.admin_permission)
+            admin_policy.user_matches_admin_policy(request.user)
+            and request.user.has_perm(self.admin_permission)
         )

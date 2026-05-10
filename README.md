@@ -288,6 +288,29 @@ AUTHKIT = {
 }
 ```
 
+Administrative and management endpoints such as `/authkit/users/`,
+`/authkit/roles/`, `/authkit/permissions/`, and `/authkit/audit-logs/` use
+Django permissions and can be configured to require staff status, superuser
+status, or permission-only access:
+
+```python
+AUTHKIT = {
+    "ADMIN_API_REQUIRE_STAFF": True,
+    "ADMIN_API_REQUIRE_SUPERUSER": False,
+}
+```
+
+Defaults preserve backward compatibility:
+
+- `ADMIN_API_REQUIRE_STAFF = True`
+- `ADMIN_API_REQUIRE_SUPERUSER = False`
+
+Examples:
+
+- Default behavior: `is_staff` plus the required Django permission(s)
+- Permission-only behavior: set `ADMIN_API_REQUIRE_STAFF = False`
+- Superuser-only management APIs: set `ADMIN_API_REQUIRE_SUPERUSER = True`
+
 ### 5. Include Package URLs
 
 Include the package URLs once in the consuming project's root URLconf. The

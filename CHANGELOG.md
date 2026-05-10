@@ -4,6 +4,16 @@ All notable changes to `django-authkit` will be documented in this file.
 
 This project follows semantic versioning before stable releases where practical.
 
+## 0.1.2 - Flexible Admin API Authorization
+
+### Changed
+
+- Added configurable admin API access policy with support for default
+  staff-plus-permission access, permission-only access, or superuser-only access.
+- Applied the shared admin policy consistently across user, role, permission,
+  and audit log management endpoints.
+- Added test coverage for permission-only and superuser-only admin API modes.
+
 ## 0.1.1 - Documentation Refresh
 
 ### Changed
